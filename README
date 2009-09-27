@@ -1,3 +1,6 @@
-Now you have a .wallpaperrc file that has the options for cambiar2.py. In this file you set the resolution and the type of wallpaper that you want. art.gnome.org tags the wallpapers with: GNOME, ABSTRACT, NATURE and OTHER. If you want only that wallpapers, you set the option to that tags, and if you want all the wallpapers, you use ALL.
+This software changes the background of your Gnome desktop.
 
+The application has two scripts, one for changing the background from a set of wallpapers, and the other one from wallpapers
+downloaded from art.gnome.org, so you do not have to provide backgrounds.
 
+Please, read the INSTALL file for installation and set up instructions.
