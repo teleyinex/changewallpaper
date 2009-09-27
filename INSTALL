@@ -1,0 +1,95 @@
+INSTALL
+
+To install changewallpaper you only have to unzip or untar the package in a folder called Wallpapers of your home directory.
+Thus, first create a folder in your home directory called Wallpapers, and then untar the package. After that you should have 
+two scripts: change-background-folder.py and change-background-art-gnome.py. 
+
+$ cd
+$ mkdir Wallpapers
+$ unzip changewallpaper.zip
+
+The modus operandi of these scripts is simple. For both of them, the script has an input list of backgrounds (backgrounds
+that you have previously downloaded in a folder, or a remote list automagically created from art.gnome.org). The list is used
+for changing the wallpapers and not repeat them after a change. The list works like a FIFO: first in first out, so once a
+background is used, it is removed from the list. The scripts create a softlink to the chosen wallpaper. This softlink is
+called wallpaper, and is the file that have to be chosen from the Gnome dekstop wallpaper application. Thanks to this
+approach, the name of the file never changes (it is called always wallpaper) but it will point to a different background each
+time one of the scripts are run.
+
+In order to change the wallpaper, you have to run one of the scripts manually, but if you use cron, you will be able to do it
+automatically for you. Thanks to cron, you can change the wallpaper on any possible schedule (please, read the cron
+documentation).
+
+=====================================
+USING change-background-folder.py
+=====================================
+
+This script changes the background of your desktop by using a set of existing backgrounds in a specific folder, the
+same folder where it is stored the script and it is called: Wallpapers. Thus, you should have something like this:
+
+/home/user/Wallpapers
++---------->change-background-folder.py
++---------->Background01.jpg
++---------->Background02.png
++---------->....
++---------->BacgroundNN.png
+
+Run the script: ./change-background-folder.py and in the folder it will be created a softlink called Wallpaper that should
+point to one of your backgrounds:
+
+$ ./change-background-folder.py
+$ ls -l Wallpaper
+  Wallpaper -> /home/user/Wallpapers/Background02.png
+
+Now, click on System->Preferences->Appearance, click on the tab Background, click on the Add button and choose the file
+/home/user/Wallpapers/Wallpaper as the background.
+
+Finally, we only have to set up cron to automatically change the wallpaper for us:
+
+$ crontab -e
+@reboot /home/user/Wallpapers/./change-background-folder.py
+
+This will change the wallpaper each time we power on the computer.
+
+It is done!!
+
+
+=====================================
+USING change-background-art-gnome.py
+=====================================
+
+This second script basically does the same as the previous one, but the difference is that the wallpapers are downloaded from
+the web http://art.gnome.org. In this site, you can find a lot of different wallpapers that can be used for you Gnome
+desktop. 
+
+This script has a config file: .wallpaperrc where you can specify the type of backgrounds that you want to have (GNOME,
+ABSTRACT, NATURE and OTHER). Additionally, you can also select the resolution that you want, so all the downloaded wallpapers
+will fit correctly in your screen. Thus, the config file has the following options:
+
+resolution=1024x768
+
+type=NATURE
+
+In resolution you have to write the resolution of your screen, and in type you can write GNOME, ABSTRACT, NATURE, OTHER or
+ALL. If you write ALL, all the types of backgrounds can be downloaded and use as background for your desktop (have a look at
+art.gnome.org for choosing a type).
+
+By default, the package provides a default config file for the script with a resolution of 1024x768 and background
+type=NATURE.
+
+Both files, .wallpaperrc and change-background-art-gnome.py should be stored on a folder called Wallpapers. Thus, you should
+create it if you have not done yet, and put inside both files. After that, you only will need an Internet connection to allow
+the script to download the backgrounds from art.gnome.org. 
+
+Finally, you have to setup cron to automatically change your wallpaper:
+
+$ crontab -e
+@reboot /home/user/Wallpapers/./change-background-art-gnome.py
+
+However this will only work if your computer is connected via a wire, because if you are using a wifi connection, the network
+in Gnome is only established after you have logged in. Thus, it will not work. The solution is to add the script to the
+Session Preferences under the auto-start section with a delay, in order to allow the computer to establish the wifi
+connection.
+
+That's it. Thanks for downloading this software and if you have a problem or some comments, please, send me an e-mail:
+<teleyinex AT Gmail DÖT com>

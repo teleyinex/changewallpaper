@@ -25,7 +25,7 @@ from os import path
 
 # Changes de wallpaper for Gnome. You only have to select the soft link: Wallpaper that this script generates. Each time you enter in your gnome session, you will see the soft link as the background.
 # The best way for see the effect is adding one line like this in cron:
-# @reboot /home/user/Wallpapers/cambiar.py
+# @reboot /home/user/Wallpapers/change-background-folder.py
 # If you want to have the wallpapers in other location, change the next variable to another Folder in your Home folder.
 
 Folder = "Wallpapers"   # Where it sould be the wallpapers and this script
@@ -36,9 +36,19 @@ Wallpapers= os.path.join(os.path.expanduser( "~"), Folder)
 # We get the different files in the folder, and choose one randomly
 files = os.listdir(Wallpapers)
 # We remove the script and the soft link from the candidates to be selected
-files.remove('cambiar.py')
+files.remove('change-background-folder.py')
+# We remove also the README, COPYING, copyright, gpl.txt, 
+files.remove('change-background-art-gnome.py')
+files.remove('README')
+files.remove('COPYING')
+files.remove('copyright')
+files.remove('gpl.txt')
+
 if os.path.isfile(os.path.join(Wallpapers,'Wallpaper')):
     files.remove('Wallpaper')
+else:
+    os.symlink(os.path.join(Wallpapers,random.choice(files)), os.path.join(Wallpapers,'Wallpaper'))
+
 background = random.choice(files)
 # Here we change the old softlink to the newer one
 os.remove(os.path.join(Wallpapers,'Wallpaper'))
